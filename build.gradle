@@ -1,7 +1,8 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.7.21'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.10'
     id 'application'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.0'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.10'
+    id "me.champeau.jmh" version "0.7.0"
 }
 
 group = 'org.example'
@@ -12,8 +13,11 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0-RC"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.14.+"
+
+    jmh "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+    jmh "com.fasterxml.jackson.module:jackson-module-kotlin:2.14.+"
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
@@ -22,13 +26,18 @@ test {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = '1.8'
+    kotlinOptions.jvmTarget = '17'
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = '1.8'
+    kotlinOptions.jvmTarget = '17'
 }
 
 application {
     mainClassName = 'MainKt'
+}
+jmh {
+    warmupIterations = 2
+    iterations = 5
+    fork = 1
 }
